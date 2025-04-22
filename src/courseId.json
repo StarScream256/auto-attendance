@@ -1,7 +1,55 @@
 {
     "1": {},
     "2": {
-        "646416": "praktikum_jaringan_komputer_if_c_20242",
-        "648277": "praktikum_algoritma_dan_pemrograman_lanjut_if_c_20242"
+        "637997": {
+            "name": "olah_raga_ii_if_b_20242",
+            "day": "1",
+            "time": "06:00"
+        },
+        "652919": {
+            "name": "algoritma_dan_pemrograman_lanjut_if_b_20242",
+            "day": "1",
+            "time": "12:00"
+        },
+        "646416": {
+            "name": "praktikum_jaringan_komputer_if_c_20242",
+            "day": "1",
+            "time": "15:00"
+        },
+        "644137": {
+            "name": "matrik_dan_ruang_vektor_if_b_20242",
+            "day": "2",
+            "time": "07:00"
+        },
+        "39737": {
+            "name": "statistika_if_b_20242",
+            "day": "2",
+            "time": "09:30"
+        },
+        "644230": {
+            "name": "sistem_dan_teknologi_informasi_if_b_20242",
+            "day": "2",
+            "time": "14:00"
+        },
+        "638573": {
+            "name": "jaringan_komputer_if_b_20242",
+            "day": "3",
+            "time": "12:45"
+        },
+        "648277": {
+            "name": "praktikum_algoritma_dan_pemrograman_lanjut_if_c_20242",
+            "day": "4",
+            "time": "09:00"
+        },
+        "640660": {
+            "name": "bahasa_inggris_if_b_20242",
+            "day": "4",
+            "time": "12:00"
+        },
+        "648232": {
+            "name": "kalkulus_lanjut_if_b_20242",
+            "day": "5",
+            "time": "07:00"
+        }
     }
 }

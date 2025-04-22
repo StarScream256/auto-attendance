@@ -3,10 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/output.css">
+    <link rel="stylesheet" href="/css/output.css">
     <title><%= title %></title>
 </head>
-<body>
-    
+<body class="w-screen h-fit min-h-screen lg:p-10 md:p-6 sm:p-4 flex flex-col gap-3 items-center justify-start bg-slate-700">
+    <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2">
+        <p class="text-white text-center text-2xl font-semibold"><%= `${dayName}, ${time.getDate()}-${time.getMonth()}-${time.getFullYear()}` %></p>
+    </div>
+    <% Object.entries(todayCourses).forEach(([key, value]) => { %>  
+        <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2 px-4 rounded-md bg-slate-800">
+            <p class="text-white text-lg font-[500]"><%= value.name.replaceAll('_', ' ') %></p>
+            <p class="text-slate-200 text-sm"><%= value.time %></p>
+
+            <!-- todo: add attendance option -->
+
+        </div>
+    <% }) %>
+    <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2 px-4 rounded-md flex justify-center">
+        <a href="" class="text-blue-500 hover:text-blue-600 text-center underline underline-offset-2 font-[400] w-fit h-fit">All Courses</a>
+    </div>
+    <script src=""></script>
 </body>
 </html>
