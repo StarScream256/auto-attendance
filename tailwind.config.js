@@ -5,7 +5,11 @@ export default {
     "./views/**/*.ejs"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        jetbrains: ['JetBrainsMono', 'sans-serif']
+      }
+    },
   },
   plugins: [
     {
