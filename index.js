@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const now = new Date();
-const time = now.toTimeString().split(' ')[0];
+const time = now.toTimeString().split(' ')[0]
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -21,8 +21,10 @@ app.get('/', (req, res) => {
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     res.render('index', {
         title: 'Main',
+        url: `http://localhost:${PORT}`,
         time: now,
         dayName: days[now.getDay()],
+        type: req.query.type || 'today',
         allCourses: getAllCourse(process.env.SEMESTER),
         todayCourses: getTodayCourse(process.env.SEMESTER, now.getDay())
     })
