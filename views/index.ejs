@@ -9,41 +9,47 @@
 <body class="w-screen h-fit min-h-screen flex flex-col gap-3 py-3 items-center justify-start bg-slate-700 font-jetbrains">
 
     <!-- Prompt -->
-    <div class="hidden absolute w-screen h-screen top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center overflow-hidden bg-black/80">
-        <form class="relative w-fit h-fit p-4 pb-6 rounded-lg bg-slate-800 flex flex-col items-center justify-center gap-3">
+    <div id="promptBg" class="hidden flex absolute w-screen h-screen top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden bg-black/80">
+        <form id="promptForm" class="relative w-fit h-fit p-4 pb-6 rounded-lg bg-slate-800 flex flex-col items-center justify-center gap-3">
+
             <button type="button" id="closePrompt" class="absolute -top-2 -right-2 w-[28px] h-[28px] rounded-full bg-red-400 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
             </button>
+            
             <p class="text-lg font-semibold text-white p-2">
                 Select option
             </p>
             <div class="w-fit h-fit flex flex-col gap-2 text-slate-200">
+                <input type="hidden" id="hiddenCourseId" name="courseId">
                 <span class="w-fit h-fit flex items-center justify-center gap-2 p-2">
-                    <input type="radio" id="present" name="attendance" class="h-5 w-5 cursor-pointer">
+                    <input type="radio" id="present" name="attendance" value="present" required class="h-5 w-5 cursor-pointer">
                     <label for="present" class="cursor-pointer">Present</label>
                 </span>
                 <span class="w-fit h-fit flex items-center justify-center gap-2 p-2">
-                    <input type="radio" id="absent" name="attendance" class="h-5 w-5 cursor-pointer">
+                    <input type="radio" id="absent" name="attendance" value="absent" required class="h-5 w-5 cursor-pointer">
                     <label for="absent" class="cursor-pointer">Absent</label>
                 </span>
                 <span class="w-fit h-fit flex items-center justify-center gap-2 p-2">
-                    <input type="radio" id="excused" name="attendance" class="h-5 w-5 cursor-pointer">
+                    <input type="radio" id="excused" name="attendance" value="excused" required class="h-5 w-5 cursor-pointer">
                     <label for="excused" class="cursor-pointer">Excused</label>
                 </span>
                 <span class="w-fit h-fit flex items-center justify-center gap-2 p-2">
-                    <input type="radio" id="late" name="attendance" class="h-5 w-5 cursor-pointer">
+                    <input type="radio" id="late" name="attendance" value="late" required class="h-5 w-5 cursor-pointer">
                     <label for="late" class="cursor-pointer">Late</label>
                 </span> 
             </div>
 
             <button type="submit" class="w-fit h-fit rounded-md mt-3 bg-slate-200 hover:bg-slate-100 text-black px-4 py-2">
-                CONFIRM
+                <div id="loadingConfirm" class="hidden flex items-center justify-center">
+                    <div class="w-8 h-8 border-4 border-t-transparent border-slate-900 rounded-full animate-spin"></div>
+                </div>
+                <p id="confirmText" class="">CONFIRM</p>
             </button>
         </form>
     </div>
 
     <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2">
-        <p class="text-white text-center text-2xl font-semibold"><%= `${dayName} ${time.getDate()}-${time.getMonth()}(${time.toDateString().split(' ')[1]})-${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}` %></p>
+        <p class="text-white text-center text-2xl font-semibold"><%= `${dayName} ${time.getDate()}-${time.getMonth()}(${time.toDateString().split(' ')[1]})-${time.getFullYear()}` %></p>
     </div>
     <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2 px-4 rounded-md flex justify-center">
         <p class="text-slate-300 text-center font-[400] w-fit h-fit">Today courses</p>
@@ -51,8 +57,12 @@
     <% todayCourses.forEach(([key, value]) => { %>  
         <div class="w-1/2 max-lg:w-1/2 max-md:w-2/3 max-sm:w-11/12 h-fit p-2 rounded-lg border-2 border-transparent bg-slate-800 hover:border-slate-300 ease-in duration-200 flex flex-row items-start">
 
-            <% if (`${time.getHours()}:${time.getMinutes()}` > value.time) { %>
-                <button id="openPrompt" type="button" class="h-[48px] w-fit px-3 bg-green-600 rounded-md flex items-center justify-center">
+            <%
+                const formattedTime = '12:46'
+                // const formattedTime = time.getHours().toString().padStart(2, '0') + ':' + time.getMinutes().toString().padStart(2, '0')
+                if (formattedTime > value.time) {
+            %>
+                <button id="openPrompt" type="button" courseId="<%= key %>" class="h-[48px] w-fit px-3 bg-green-600 rounded-md flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M222-200 80-342l56-56 85 85 170-170 56 57-225 226Zm0-320L80-662l56-56 85 85 170-170 56 57-225 226Zm298 240v-80h360v80H520Zm0-320v-80h360v80H520Z"/></svg>
                 </button>
             <% } %>
@@ -65,7 +75,7 @@
         </div>
     <% }) %>
     <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2 px-4 rounded-md flex justify-center">
-        <a href="<%= type == 'today' ? `${url}?type=all` : `${url}?type=today`  %>" class="text-slate-300 hover:text-slate-100 text-center underline underline-offset-2 font-[400] w-fit h-fit">
+        <a href="<%= type == 'today' ? `/?type=all` : `/?type=today`  %>" class="text-slate-300 hover:text-slate-100 text-center underline underline-offset-2 font-[400] w-fit h-fit">
             <%= type == 'today' ? 'Show all courses' : 'Hide all courses' %>
         </a>
     </div>
@@ -81,6 +91,6 @@
             </div>
         <% }) %>
     <% } %>
-    <script src=""></script>
+    <script src="/js/app.js"></script>
 </body>
 </html>

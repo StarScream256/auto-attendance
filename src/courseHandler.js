@@ -3,10 +3,10 @@ import courses from './courseId.json' assert { type: 'json' }
 
 dotenv.config()
 
-const baseUrl = process.env.BASE_URL
+const baseUrl = process.env.TARGET_URL
 const baseAttendanceUrl = `${baseUrl}/mod/attendance/view.php?id=`
 
-export const getUrl = (courseId) => {
+export const getCourseUrl = (courseId) => {
     return `${baseAttendanceUrl}${courseId}`
 }
 

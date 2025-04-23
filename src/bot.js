@@ -1,9 +1,10 @@
-require('dotenv').config()
-// import { links } from 'express/lib/response'
 import puppeteer from 'puppeteer'
-const courseUrl = require('./courseUrl')
+import { getCourseUrl } from './courseHandler.js'
+import dotenv from 'dotenv'
 
-const baseUrl = process.env.BASE_URL
+dotenv.config()
+
+const baseUrl = process.env.TARGET_URL
 const loginUrl = `${baseUrl}/login/index.php`
 const logoutUrl = `${baseUrl}/login/logout.php?sesskey=`
 
@@ -17,16 +18,20 @@ const login = async (page) => {
     ])
 
     const currentUrl = page.url()
+
+    console.log(currentUrl)
+
     let logoutHref
     if (currentUrl.includes('/my')) {
         logoutHref = await page.$eval('a[data-title="logout,moodle"]', (element) => element.href)
-        // console.log(logoutHref)
-        // console.log(logoutHref.split('=')[1])
     }
-    return {
-        success: currentUrl.includes('/my'),
-        sesskey: logoutHref.split('=')[1]
+    if (logoutHref) {
+        return {
+            success: currentUrl.includes('/my'),
+            sesskey: logoutHref.split('=')[1]
+        }
     }
+    return { success: false, sesskey: null }
 }
 
 const logout = async (page, sesskey) => {
@@ -43,7 +48,7 @@ const logout = async (page, sesskey) => {
 const attend = async (page, courseId) => {
     const basePattern = `${baseUrl}/mod/attendance/attendance.php`
     await Promise.all([
-        page.goto(courseUrl.getUrl(courseId)),
+        page.goto(getCourseUrl(courseId)),
         page.waitForNavigation({ waitUntil: 'load' })
     ])
     await page.waitForSelector('a');
@@ -66,7 +71,7 @@ const closeBrowser = async (browser) => {
     await browser.close();
 }
 
-export const openBrowser = async (courseId) => {
+export const makeAttendance = async (courseId, attendState) => {
     const browser = await puppeteer.launch({
         headless: true
     })
@@ -77,12 +82,12 @@ export const openBrowser = async (courseId) => {
     let sessionKey
     if (loginState.success) {
         sessionKey = loginState.sesskey
-        console.log('Login success')
+        console.log('Login success', sessionKey)
     } else {
         console.log('Login failed')
     }
 
-    await attend(courseId)
+    // await attend(courseId)
     
     const logoutState = await logout(page, sessionKey)
     if (logoutState.success) {
@@ -91,5 +96,11 @@ export const openBrowser = async (courseId) => {
         console.log('Logout failed')
     }
     
-    await closeBrowser()
+    await closeBrowser(browser)
+
+    return {
+        login: loginState.success,
+        attend: true,
+        logout: logoutState.success
+    }
 }
