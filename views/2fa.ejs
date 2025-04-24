@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/output.css">
+    <title><%= title %></title>
+</head>
+<body class="w-screen h-fit min-h-screen flex flex-col gap-3 p-5 items-center justify-start bg-slate-700 font-jetbrains">
+    <div class="w-[25rem] max-lg:w-[25rem] max-md:w-2/3 max-sm:w-full h-fit p-5 rounded-lg border-2 border-transparent bg-slate-800 ease-in duration-200 flex flex-row items-center justify-center">
+        <span class="w-fit h-fit flex flex-col gap-4 text-center">
+            <p class="text-3xl text-white font-bold">2FA</p>
+            <p class="text-slate-200">Enter code from Google Authenticator</p>
+            
+            <form id="twoFAForm" class="w-full h-fit flex flex-col gap-4 mt-3">
+                <div class="w-full h-fit flex flex-col items-start">
+                    <p class="text-base text-slate-200 font-semibold">6-digit Code</p>
+                    <input type="text" id="code" name="code" placeholder="Enter your code" required class="w-full border-2 border-slate-400 bg-slate-800 rounded-lg px-3 py-2 focus:outline-1 focus:outline-slate-200 focus:outline-offset-1 focus:border-transparent text-white focus:text-white">
+                </div>
+                <div class="w-full h-fit flex items-center justify-center">
+                    <button type="submit" class="w-fit h-fit rounded-md mt-3 bg-slate-200 hover:bg-slate-100 text-black px-4 py-2">SUBMIT</button>
+                </div>
+            </form>
+        </span>
+    </div>
+
+    <script src="/js/2fa.js"></script>
+</body>
+</html>

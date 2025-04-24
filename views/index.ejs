@@ -51,42 +51,44 @@
     <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2">
         <p class="text-white text-center text-2xl font-semibold"><%= `${dayName} ${time.getDate()}-${time.getMonth()}(${time.toDateString().split(' ')[1]})-${time.getFullYear()}` %></p>
     </div>
-    <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2 px-4 rounded-md flex justify-center">
+    <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2 px-4 rounded-md flex flex-row gap-4 justify-center">
         <p class="text-slate-300 text-center font-[400] w-fit h-fit">Today courses</p>
+        <a href="/logout" class="text-slate-300 text-center font-[400] w-fit h-fit underline">Logout</a>
     </div>
-    <% todayCourses.forEach(([key, value]) => { %>  
-        <div class="w-1/2 max-lg:w-1/2 max-md:w-2/3 max-sm:w-11/12 h-fit p-2 rounded-lg border-2 border-transparent bg-slate-800 hover:border-slate-300 ease-in duration-200 flex flex-row items-start">
 
-            <%
-                const formattedTime = time.getHours().toString().padStart(2, '0') + ':' + time.getMinutes().toString().padStart(2, '0')
-                if (formattedTime > value.time) {
-            %>
-                <button id="openPrompt" type="button" courseId="<%= key %>" class="h-[48px] w-fit px-3 bg-green-600 rounded-md flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M222-200 80-342l56-56 85 85 170-170 56 57-225 226Zm0-320L80-662l56-56 85 85 170-170 56 57-225 226Zm298 240v-80h360v80H520Zm0-320v-80h360v80H520Z"/></svg>
-                </button>
-            <% } %>
-            
-            <div class="px-3">
-                <p class="text-white text-lg font-[500]"><%= value.name.replaceAll('_', ' ') %></p>
-                <p class="text-slate-200 text-sm"><%= value.time %></p>
-            </div>
-
-        </div>
-    <% }) %>
-    <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2 px-4 rounded-md flex justify-center">
-        <a href="<%= type == 'today' ? `/?type=all` : `/?type=today`  %>" class="text-slate-300 hover:text-slate-100 text-center underline underline-offset-2 font-[400] w-fit h-fit">
-            <%= type == 'today' ? 'Show all courses' : 'Hide all courses' %>
-        </a>
-    </div>
+    <div class="w-full h-fit flex flex-col items-center gap-3 px-3">
+        <% todayCourses.forEach(([key, value]) => { %>  
+            <div class="w-1/2 max-lg:w-1/2 max-md:w-2/3 max-sm:w-full h-fit p-3 rounded-lg border-2 border-transparent bg-slate-800 hover:border-slate-300 ease-in duration-200 flex flex-row items-start">
     
-    <% if (type == 'all') { %>
-        <% allCourses.forEach(([key, value]) => { %>  
-            <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-4 px-6 rounded-lg border-2 border-transparent bg-slate-800 hover:border-slate-300 ease-in duration-200">
-                <p class="text-white text-lg font-[500]"><%= value.name.replaceAll('_', ' ') %></p>
-                <p class="text-slate-200 text-sm"><%= `${value.day} ${value.time}` %></p>
+                <% if (time.getHours().toString().padStart(2, '0') + ':' + time.getMinutes().toString().padStart(2, '0') > value.time) { %>
+                    <button id="openPrompt" type="button" courseId="<%= key %>" class="h-[48px] w-fit px-3 bg-green-600 rounded-md flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M222-200 80-342l56-56 85 85 170-170 56 57-225 226Zm0-320L80-662l56-56 85 85 170-170 56 57-225 226Zm298 240v-80h360v80H520Zm0-320v-80h360v80H520Z"/></svg>
+                    </button>
+                <% } %>
+                
+                <div class="px-3">
+                    <p class="text-white text-lg font-[500]"><%= value.name.replaceAll('_', ' ') %></p>
+                    <p class="text-slate-200 text-sm"><%= value.time %></p>
+                </div>
+    
             </div>
         <% }) %>
-    <% } %>
+        <div class="lg:w-1/2 md:w-2/3 sm:w-screen h-fit py-2 px-4 rounded-md flex justify-center">
+            <a href="<%= type == 'today' ? `/my?type=all` : `/my?type=today`  %>" class="text-slate-300 hover:text-slate-100 text-center underline underline-offset-2 font-[400] w-fit h-fit">
+                <%= type == 'today' ? 'Show all courses' : 'Hide all courses' %>
+            </a>
+        </div>
+        
+        <% if (type == 'all') { %>
+            <% allCourses.forEach(([key, value]) => { %>  
+                <div class="w-1/2 max-lg:w-1/2 max-md:w-2/3 max-sm:w-full h-fit p-3 rounded-lg border-2 border-transparent bg-slate-800 hover:border-slate-300 ease-in duration-200 flex flex-col items-start">
+                    <p class="text-white text-lg font-[500]"><%= value.name.replaceAll('_', ' ') %></p>
+                    <p class="text-slate-200 text-sm"><%= `${value.day} ${value.time}` %></p>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+    
     <script src="/js/app.js"></script>
 </body>
 </html>

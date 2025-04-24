@@ -1,14 +1,16 @@
-const openPromptBtn = document.querySelector('#openPrompt')
+const openPromptBtns = document.querySelectorAll('#openPrompt')
 const closePromptBtn = document.querySelector('#closePrompt')
 const promptForm = document.querySelector('#promptForm')
 const promptBg = document.querySelector('#promptBg')
 
-openPromptBtn.addEventListener('click', () => {
-    promptBg.classList.remove('hidden')
-    document.body.style.overflow = 'hidden'
-    const courseId = openPromptBtn.getAttribute('courseId')
-    const inputCourseId = document.querySelector('#hiddenCourseId')
-    inputCourseId.value = courseId
+openPromptBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        promptBg.classList.remove('hidden')
+        document.body.style.overflow = 'hidden'
+        const courseId = btn.getAttribute('courseId')
+        const inputCourseId = document.querySelector('#hiddenCourseId')
+        inputCourseId.value = courseId
+    })
 })
 
 closePromptBtn.addEventListener('click', () => {
@@ -47,4 +49,3 @@ promptForm.addEventListener('submit', async (element) => {
     alert(msg)
     window.location.href = '/'
 })
-

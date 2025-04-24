@@ -17,7 +17,10 @@
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "puppeteer": "^24.6.1"
+    "express-session": "^1.18.1",
+    "puppeteer": "^24.6.1",
+    "qrcode": "^1.5.4",
+    "speakeasy": "^2.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
