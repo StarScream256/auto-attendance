@@ -47,5 +47,5 @@ promptForm.addEventListener('submit', async (element) => {
         `Logout: ${data.logout}`
     ].join('\n')
     alert(msg)
-    window.location.href = '/'
+    window.location.href = '/my'
 })
