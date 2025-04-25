@@ -33,3 +33,38 @@ export const getTodayCourse = (semester, currentDay) => {
             return a.time.localeCompare(b.time)
     })
 }
+
+export const matchingCourse = (attendState, attendChoices) => {
+    attendState = attendState.toLowerCase()
+    attendChoices = attendChoices.map(choice => {
+        choice.label = choice.label.toLowerCase()
+        return choice
+    })
+
+    if (attendState == 'present') {
+        return attendChoices.filter(choice => 
+            choice.label.includes('present') 
+                || choice.label.includes('hadir')
+        )
+    } else if (attendState == 'late') {
+        return attendChoices.filter(choice => 
+            choice.label.includes('late')
+                || choice.label.includes('lambat') // 'terlambat', 'lambat' (ID)
+        )
+    } else if (attendState == 'excused') {
+        return attendChoices.filter(choice => 
+            choice.label.includes('excuse') // 'excuse', 'excused', 'excuses' (EN)
+                || choice.label.includes('bebas')
+                || choice.label.includes('izin')
+                || choice.label.includes('alasan')
+        )
+    } else if (attendState == 'absent') {
+        return attendChoices.filter(choice => 
+            choice.label.includes('absen') // 'absent' (EN) and 'absen' (ID)
+                || choice.label.includes('tidak')
+                || choice.label.includes('tidak hadir')
+        )
+    }
+
+    return []
+}
