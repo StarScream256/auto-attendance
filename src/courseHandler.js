@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import courses from './courseId.json' assert { type: 'json' }
+import courses from './courseId.json' with { type: 'json' }
 
 dotenv.config()
 
